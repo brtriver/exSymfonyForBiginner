@@ -23,13 +23,13 @@ render date time with doctrine model
 // HTML
 //---------------------------------//
 change layout to 'newLayout.php' in the global template dir.
-<?php decorate_with('newlayout')?>
+<?php decorate_with('newLayout')?>
 
 add a new 'web/css/mystyle.css' style sheet file.
 <?php use_stylesheet('mystyle.css')?>
 
 add a new 'web/js/myjs.js' javascript file.
-<?php use_stylesheet('myjs.css')?>
+<?php use_javascript('myjs.css')?>
 
 link tag
 <?php echo link_to('click here', '@routing_name?name=' . $name) ?>
