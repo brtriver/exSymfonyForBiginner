@@ -1,0 +1,178 @@
+---
+# http://www.doctrine-project.org/documentation/manual/1_2/en/yaml-schema-files
+# simple
+User:
+  columns:
+    username: string
+    password: string
+    contact_id: integer
+
+Contact:
+  columns:
+    first_name: string
+    last_name: string
+    phone: string
+    email: string
+    address: string
+
+# same above
+User:
+  columns:
+    username:
+      type: string(255)
+    password:
+      type: string(255)
+    contact_id:
+      type: integer
+  relations:
+    Contact:
+      class: Contact
+      local: contact_id
+      foreign: id
+      foreignAlias: User
+      foreignType: one
+      type: one
+
+Contact:
+  columns:
+    first_name:
+      type: string(255)
+    last_name:
+      type: string(255)
+    phone:
+      type: string(255)
+    email:
+      type: string(255)
+    address:
+      type: string(255)
+  relations:
+    User:
+      class: User
+      local: id
+      foreign: contact_id
+      foreignAlias: Contact
+          foreignType: one
+          type: one
+
+# one to one
+User:
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    contact_id:
+      type: integer(4)
+    username:
+      type: string(255)
+    password:
+      type: string(255)
+  relations:
+    Contact:
+      foreignType: one
+
+Contact:
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+
+#one to many
+User:
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    contact_id:
+      type: integer(4)
+    username:
+      type: string(255)
+    password:
+      type: string(255)
+
+Phonenumber:
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+    user_id:
+      type: integer(4)
+  relations:
+    User:
+      foreignAlias: Phonenumbers
+
+#many to many
+User:
+  columns:
+    id:
+      type: integer(4)
+      autoincrement: true
+      primary: true
+    username:
+      type: string(255)
+    password:
+      type: string(255)
+  attributes:
+    export: all
+    validate: true
+
+Group:
+  tableName: group_table
+  columns:
+    id:
+      type: integer(4)
+      autoincrement: true
+      primary: true
+    name:
+      type: string(255)
+  relations:
+    Users:
+      foreignAlias: Groups
+      class: User
+      refClass: GroupUser
+
+GroupUser:
+  columns:
+    group_id:
+      type: integer(4)
+      primary: true
+    user_id:
+      type: integer(4)
+      primary: true
+  relations:
+    Group:
+      foreignAlias: GroupUsers
+    User:
+      foreignAlias: GroupUsers
+
+# Enums sample
+TvListing:
+ tableName: tv_listing
+ actAs: [Timestampable]
+ columns:
+   notes:
+     type: string
+   taping:
+     type: enum
+     length: 4
+     values: ['live', 'tape']
+   region:
+     type: enum
+     length: 4
+     values: ['US', 'CA']
+
+# attribute sample
+Sample:
+  package: Sample.
+  connection: doctrine
+  tableName: sample
+  actAs: [Timestampable, SoftDelete]
+  columns: ~
+
